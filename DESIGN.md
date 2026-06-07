@@ -44,6 +44,13 @@ The project follows a modular architecture organized by concern, adhering to the
     - Persists points incrementally to prevent data loss.
 
 ### UI Layer
+- **`SessionViewModel.kt`**:
+  - **Role**: UI state owner that survives configuration changes.
+  - **Responsibility**:
+    - Exposes `SessionUiState` to the view.
+    - Translates user actions (start, stop) into repository calls.
+    - Catches and exposes errors (e.g., invalid state transitions).
+    - Merges domain session data with UI-only state (like transient errors).
 - **`OsmMapView.kt`**: 
   - **Role**: A Compose-friendly wrapper for the **osmdroid** library.
   - **Responsibilities**:
