@@ -7,44 +7,36 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.katharina.routetracker.domain.TrackPoint
+import com.katharina.routetracker.ui.OsmMapView
 import com.katharina.routetracker.ui.theme.RouteTrackerTheme
+import org.osmdroid.config.Configuration
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // osmdroid configuration
+        Configuration.getInstance().userAgentValue = packageName
+
         enableEdgeToEdge()
         setContent {
             RouteTrackerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding),
+                    val dummyPoints = listOf(
+                        TrackPoint(52.5200, 13.4050, 0), // Berlin
+                        TrackPoint(52.5210, 13.4060, 0),
+                        TrackPoint(52.5220, 13.4070, 0)
+                    )
+                    OsmMapView(
+                        points = dummyPoints,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(
-    name: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier,
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RouteTrackerTheme {
-        Greeting("Android")
     }
 }
