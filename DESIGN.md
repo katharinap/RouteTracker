@@ -30,9 +30,18 @@ The project follows a modular architecture organized by concern, adhering to the
 - **`LocationSource.kt`**:
   - **Role**: Interface abstracting location hardware.
   - **Responsibility**: Provides a `Flow` of `TrackPoint` updates.
+- **`FusedLocationSource.kt`**:
+  - **Role**: Production implementation of `LocationSource`.
+  - **Responsibility**: Uses Google Play Services `FusedLocationProviderClient` to stream GPS updates.
 - **`SessionStore.kt`**:
   - **Role**: Interface abstracting persistence.
   - **Responsibility**: Provides methods to save, load, and observe tracking sessions.
+- **`room/`**:
+  - **`SessionEntity.kt`**: Database schema for tracking sessions.
+  - **`SessionDao.kt`**: SQL queries for session persistence.
+  - **`AppDatabase.kt`**: Room database configuration.
+  - **`TrackPointConverter.kt`**: Serializes `List<TrackPoint>` to JSON for storage.
+  - **`RoomSessionStore.kt`**: Production implementation of `SessionStore` using Room.
 
 ### Repository Layer
 - **`TrackingRepository.kt`**:
@@ -44,6 +53,12 @@ The project follows a modular architecture organized by concern, adhering to the
     - Persists points incrementally to prevent data loss.
 
 ### UI Layer
+- **`RouteTrackerScreen.kt`**:
+  - **Role**: The primary screen of the application.
+  - **Responsibility**:
+    - Orchestrates `SessionHeader`, `OsmMapView`, and `TrackingControlsBar`.
+    - Handles runtime location permission requests.
+    - Displays errors via a Snackbar.
 - **`SessionViewModel.kt`**:
   - **Role**: UI state owner that survives configuration changes.
   - **Responsibility**:

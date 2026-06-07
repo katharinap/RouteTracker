@@ -4,12 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.katharina.routetracker.domain.TrackPoint
-import com.katharina.routetracker.ui.OsmMapView
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.katharina.routetracker.data.FusedLocationSource
+import com.katharina.routetracker.data.room.AppDatabase
+import com.katharina.routetracker.data.room.RoomSessionStore
+import com.katharina.routetracker.data.room.TrackPointConverter
+import com.katharina.routetracker.repository.TrackingRepository
+import com.katharina.routetracker.ui.RouteTrackerScreen
+import com.katharina.routetracker.ui.SessionViewModel
 import com.katharina.routetracker.ui.theme.RouteTrackerTheme
 import org.osmdroid.config.Configuration
 
@@ -20,22 +24,22 @@ class MainActivity : ComponentActivity() {
         // osmdroid configuration
         Configuration.getInstance().userAgentValue = packageName
 
+        // Manual DI for now
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "route_tracker.db"
+        ).build()
+        
+        val store = RoomSessionStore(db.sessionDao(), TrackPointConverter())
+        val locationSource = FusedLocationSource(applicationContext)
+        val repo = TrackingRepository(store, locationSource, lifecycleScope)
+        val viewModel = SessionViewModel(repo)
+
         enableEdgeToEdge()
         setContent {
             RouteTrackerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val dummyPoints = listOf(
-                        TrackPoint(52.5200, 13.4050, 0), // Berlin
-                        TrackPoint(52.5210, 13.4060, 0),
-                        TrackPoint(52.5220, 13.4070, 0)
-                    )
-                    OsmMapView(
-                        points = dummyPoints,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
-                }
+                RouteTrackerScreen(viewModel = viewModel)
             }
         }
     }
