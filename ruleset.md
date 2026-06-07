@@ -477,19 +477,19 @@ app/src/
 
 ## Implementation Checklist
 
-- [ ] Domain model + `withState()` + unit tests
-- [ ] `toControlsState()` + unit tests
-- [ ] `FakeLocationSource` and `FakeSessionStore`
-- [ ] `TrackingRepository` + unit tests (using fakes), including timestamp assertions
-- [ ] Room entities, DAO, converter, `RoomSessionStore`
-- [ ] `FusedLocationSource`
-- [ ] Hilt module wiring
-- [ ] `SessionViewModel` + `toUiState()` + unit tests
-- [ ] `toDisplayTime()` extension + unit tests
-- [ ] `OsmMapView` composable
-- [ ] `TrackingControlsBar` composable
-- [ ] `SessionHeader` composable
-- [ ] `RouteTrackerScreen` composable (permission request included)
-- [ ] `TrackingService` (foreground)
-- [ ] Manifest permissions + service declaration
-- [ ] Smoke UI tests
+- [x] Domain model + `withState()` + unit tests
+- [x] `toControlsState()` + unit tests
+- [x] `FakeLocationSource` and `FakeSessionStore`
+- [x] `TrackingRepository` + unit tests (using fakes), including timestamp assertions
+- [x] Room entities, DAO, converter, `RoomSessionStore`
+- [x] `FusedLocationSource`
+- [x] Hilt module wiring
+- [x] `SessionViewModel` + `toUiState()` + unit tests
+- [x] `toDisplayTime()` extension + unit tests
+- [x] `OsmMapView` composable
+- [x] `TrackingControlsBar` composable
+- [x] `SessionHeader` composable
+- [x] `RouteTrackerScreen` composable (permission request included)
+- [x] `TrackingService` (foreground)
+- [x] Manifest permissions + service declaration
+- [x] Smoke UI tests
