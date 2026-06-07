@@ -6,12 +6,14 @@ import com.katharina.routetracker.domain.TrackPoint
 import com.katharina.routetracker.domain.TrackingSession
 import com.katharina.routetracker.domain.TrackingState
 import com.katharina.routetracker.repository.TrackingRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /** UI-focused snapshot of the current session state. */
 data class SessionUiState(
@@ -23,7 +25,8 @@ data class SessionUiState(
     val hasActiveSession: Boolean = false,
 )
 
-class SessionViewModel(private val repo: TrackingRepository) : ViewModel() {
+@HiltViewModel
+class SessionViewModel @Inject constructor(private val repo: TrackingRepository) : ViewModel() {
 
     private val _error = MutableStateFlow<String?>(null)
 
