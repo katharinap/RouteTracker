@@ -89,7 +89,7 @@ class TrackingService : Service() {
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle("Route Tracker")
             .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Using default for now
+            .setSmallIcon(R.drawable.ic_tracking)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .build()
