@@ -7,6 +7,7 @@ import com.katharina.routetracker.data.SessionStore
 import com.katharina.routetracker.domain.TrackingSession
 import com.katharina.routetracker.domain.TrackingState
 import com.katharina.routetracker.domain.withState
+import com.katharina.routetracker.service.TrackingService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -21,7 +22,7 @@ class TrackingRepository @Inject constructor(
     private val store: SessionStore,
     private val locationSource: LocationSource,
     private val scope: CoroutineScope,
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
 ) {
     private val _session = MutableStateFlow<TrackingSession?>(null)
     val session: StateFlow<TrackingSession?> = _session.asStateFlow()
@@ -48,12 +49,12 @@ class TrackingRepository @Inject constructor(
     }
 
     private fun startService() {
-        val intent = Intent(context, Class.forName("com.katharina.routetracker.service.TrackingService"))
+        val intent = Intent(context, TrackingService::class.java)
         context.startForegroundService(intent)
     }
 
     private fun stopService() {
-        val intent = Intent(context, Class.forName("com.katharina.routetracker.service.TrackingService"))
+        val intent = Intent(context, TrackingService::class.java)
         context.stopService(intent)
     }
 

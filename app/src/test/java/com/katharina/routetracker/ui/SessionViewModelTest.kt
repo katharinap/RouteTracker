@@ -5,6 +5,7 @@ import com.katharina.routetracker.domain.TrackingState
 import com.katharina.routetracker.fakes.FakeLocationSource
 import com.katharina.routetracker.fakes.FakeSessionStore
 import com.katharina.routetracker.repository.TrackingRepository
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -29,6 +30,7 @@ class SessionViewModelTest {
     private val testScope = TestScope(testDispatcher)
     private val store = FakeSessionStore()
     private val locationSource = FakeLocationSource(emptyList())
+    private val context = mockk<android.content.Context>(relaxed = true)
     
     private lateinit var repo: TrackingRepository
     private lateinit var viewModel: SessionViewModel
@@ -36,7 +38,7 @@ class SessionViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        repo = TrackingRepository(store, locationSource, testScope)
+        repo = TrackingRepository(store, locationSource, testScope, context)
         viewModel = SessionViewModel(repo)
     }
 
@@ -106,7 +108,7 @@ class SessionViewModelTest {
     fun `points are mapped to UI state`() = testScope.runTest {
         val points = listOf(TrackPoint(1.0, 1.0, 100))
         val reactiveLocationSource = FakeLocationSource(points)
-        repo = TrackingRepository(store, reactiveLocationSource, testScope)
+        repo = TrackingRepository(store, reactiveLocationSource, testScope, context)
         viewModel = SessionViewModel(repo)
         
         viewModel.createSession()

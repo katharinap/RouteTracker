@@ -4,6 +4,8 @@ import com.katharina.routetracker.domain.TrackPoint
 import com.katharina.routetracker.domain.TrackingState
 import com.katharina.routetracker.fakes.FakeLocationSource
 import com.katharina.routetracker.fakes.FakeSessionStore
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -18,12 +20,14 @@ class TrackingRepositoryTest {
 
     private val testScope = TestScope()
     private val store = FakeSessionStore()
+    private val context = mockk<android.content.Context>(relaxed = true)
     
     private fun createRepo(points: List<TrackPoint> = emptyList()): TrackingRepository {
         return TrackingRepository(
             store = store,
             locationSource = FakeLocationSource(points),
-            scope = testScope
+            scope = testScope,
+            context = context
         )
     }
 
