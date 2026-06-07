@@ -51,6 +51,11 @@ The project follows a modular architecture organized by concern, adhering to the
     - Translates user actions (start, stop) into repository calls.
     - Catches and exposes errors (e.g., invalid state transitions).
     - Merges domain session data with UI-only state (like transient errors).
+- **`TrackingControlsBar.kt`**:
+  - **Role**: A context-sensitive UI component for session control.
+  - **Responsibility**:
+    - Displays "Start", "Pause", "Resume", or "Stop" buttons based on `ControlsState`.
+    - Routes button clicks to provided callback lambdas.
 - **`OsmMapView.kt`**: 
   - **Role**: A Compose-friendly wrapper for the **osmdroid** library.
   - **Responsibilities**:
