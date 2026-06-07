@@ -250,7 +250,7 @@ Format timestamps at the UI boundary only — never in the ViewModel or reposito
 
 ```kotlin
 // SessionHeader.kt
-private val timestampFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+private val timestampFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
 fun Long?.toDisplayTime(): String =
     this?.let { timestampFormatter.format(Date(it)) } ?: "—"

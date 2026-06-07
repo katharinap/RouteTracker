@@ -56,6 +56,11 @@ The project follows a modular architecture organized by concern, adhering to the
   - **Responsibility**:
     - Displays "Start", "Pause", "Resume", or "Stop" buttons based on `ControlsState`.
     - Routes button clicks to provided callback lambdas.
+- **`SessionHeader.kt`**:
+  - **Role**: Displays session metadata (start and stop times).
+  - **Responsibility**:
+    - Formats timestamps for display using `toDisplayTime()`.
+    - Handles null timestamps by showing a dash ("—").
 - **`OsmMapView.kt`**: 
   - **Role**: A Compose-friendly wrapper for the **osmdroid** library.
   - **Responsibilities**:
