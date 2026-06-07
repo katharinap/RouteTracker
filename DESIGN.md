@@ -19,6 +19,12 @@ The project follows a modular architecture organized by concern, adhering to the
 - **`TrackPoint.kt`**: 
   - **Role**: A data class representing an immutable snapshot of a single GPS fix.
   - **Contents**: Latitude, longitude, and a timestamp in milliseconds.
+- **`TrackingState.kt`**:
+  - **Role**: Enum defining all possible session states (`IDLE`, `TRACKING`, `PAUSED`, `STOPPED`).
+  - **Responsibility**: Provides `toControlsState()` to map internal state to UI button visibility.
+- **`TrackingSession.kt`**:
+  - **Role**: The aggregate root for a tracking activity.
+  - **Responsibility**: Provides `withState()` to enforce legal state transitions.
 
 ### UI Layer
 - **`OsmMapView.kt`**: 
