@@ -1,6 +1,7 @@
 package com.katharina.routetracker.ui
 
 import android.Manifest
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import com.katharina.routetracker.domain.toControlsState
 @Composable
 fun RouteTrackerScreen(viewModel: SessionViewModel) {
     val uiState by viewModel.uiState.collectAsState()
+    val allSessions by viewModel.allSessions.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -53,15 +55,20 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
                 .padding(innerPadding)
         ) {
             if (!uiState.hasActiveSession) {
-                CreateSessionCard(
+                SessionList(
+                    sessions = allSessions,
                     onCreateSession = viewModel::createSession,
-                    modifier = Modifier.align(Alignment.Center)
+                    onSelectSession = viewModel::selectSession
                 )
             } else {
+                BackHandler {
+                    viewModel.closeSession()
+                }
                 Column(modifier = Modifier.fillMaxSize()) {
                     SessionHeader(
                         startedAt = uiState.startedAt,
-                        stoppedAt = uiState.stoppedAt
+                        stoppedAt = uiState.stoppedAt,
+                        onBack = viewModel::closeSession
                     )
                     OsmMapView(
                         points = uiState.points,
@@ -83,30 +90,6 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
                         onStop = viewModel::stop
                     )
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun CreateSessionCard(
-    onCreateSession: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.padding(16.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "No active session",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Button(onClick = onCreateSession) {
-                Text("New Session")
             }
         }
     }

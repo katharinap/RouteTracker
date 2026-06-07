@@ -33,6 +33,16 @@ class TrackingRepository @Inject constructor(
         _session.value = store.save(TrackingSession())
     }
 
+    suspend fun loadSession(id: Long) {
+        _session.value = store.load(id)
+    }
+
+    fun observeAll() = store.observeAll()
+
+    fun closeSession() {
+        _session.value = null
+    }
+
     suspend fun start() = transition(TrackingState.TRACKING) {
         _session.update { it?.copy(startedAt = System.currentTimeMillis()) }
         startService()

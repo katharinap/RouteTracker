@@ -15,7 +15,7 @@ class SessionHeaderTest {
     fun sessionHeader_showsStartedTime() {
         val startedAt = System.currentTimeMillis()
         composeTestRule.setContent {
-            SessionHeader(startedAt = startedAt, stoppedAt = null)
+            SessionHeader(startedAt = startedAt, stoppedAt = null, onBack = {})
         }
 
         composeTestRule.onNodeWithText("Started: ${startedAt.toDisplayTime()}").assertIsDisplayed()
@@ -26,7 +26,7 @@ class SessionHeaderTest {
         val startedAt = System.currentTimeMillis() - 1000
         val stoppedAt = System.currentTimeMillis()
         composeTestRule.setContent {
-            SessionHeader(startedAt = startedAt, stoppedAt = stoppedAt)
+            SessionHeader(startedAt = startedAt, stoppedAt = stoppedAt, onBack = {})
         }
 
         composeTestRule.onNodeWithText("Started: ${startedAt.toDisplayTime()}").assertIsDisplayed()
@@ -36,7 +36,7 @@ class SessionHeaderTest {
     @Test
     fun sessionHeader_showsDashForNullStartedTime() {
         composeTestRule.setContent {
-            SessionHeader(startedAt = null, stoppedAt = null)
+            SessionHeader(startedAt = null, stoppedAt = null, onBack = {})
         }
 
         composeTestRule.onNodeWithText("Started: —").assertIsDisplayed()

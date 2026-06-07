@@ -41,7 +41,13 @@ class SessionViewModel @Inject constructor(private val repo: TrackingRepository)
         initialValue = SessionUiState()
     )
 
+    val allSessions: StateFlow<List<TrackingSession>> = repo.observeAll()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     fun createSession() = safeLaunch { repo.createSession() }
+    fun selectSession(id: Long) = safeLaunch { repo.loadSession(id) }
+    fun closeSession() = repo.closeSession()
+
     fun start() = safeLaunch { repo.start() }
     fun pause() = safeLaunch { repo.pause() }
     fun resume() = safeLaunch { repo.resume() }

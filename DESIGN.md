@@ -56,9 +56,15 @@ The project follows a modular architecture organized by concern, adhering to the
 - **`RouteTrackerScreen.kt`**:
   - **Role**: The primary screen of the application.
   - **Responsibility**:
-    - Orchestrates `SessionHeader`, `OsmMapView`, and `TrackingControlsBar`.
+    - Orchestrates `SessionList`, `SessionHeader`, `OsmMapView`, and `TrackingControlsBar`.
     - Handles runtime location permission requests.
     - Displays errors via a Snackbar.
+- **`SessionList.kt`**:
+  - **Role**: Displays a list of all saved tracking sessions.
+  - **Responsibility**:
+    - Provides a "New Session" entry point.
+    - Lists past sessions with metadata (start time, points count).
+    - Handles session selection to view details.
 - **`SessionViewModel.kt`**:
   - **Role**: UI state owner that survives configuration changes.
   - **Responsibility**:

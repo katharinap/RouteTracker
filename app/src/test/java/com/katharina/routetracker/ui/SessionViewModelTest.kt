@@ -118,4 +118,24 @@ class SessionViewModelTest {
         
         assertEquals(1, viewModel.uiState.value.points.size)
     }
+
+    @Test
+    fun `allSessions observes repository`() = testScope.runTest {
+        viewModel.createSession()
+        testScope.advanceUntilIdle()
+        
+        val sessions = viewModel.allSessions.value
+        assertEquals(1, sessions.size)
+    }
+
+    @Test
+    fun `closeSession resets active session state`() = testScope.runTest {
+        viewModel.createSession()
+        testScope.advanceUntilIdle()
+        assertTrue(viewModel.uiState.value.hasActiveSession)
+        
+        viewModel.closeSession()
+        testScope.advanceUntilIdle()
+        assertFalse(viewModel.uiState.value.hasActiveSession)
+    }
 }
