@@ -8,8 +8,8 @@ The project follows a modular architecture organized by concern, adhering to the
 
 - **Domain Layer**: Contains the core business logic and data models. It is independent of any Android-specific libraries (where possible).
 - **Data Layer**: Defines abstractions for persistence (SessionStore) and location updates (LocationSource).
+- **Repository**: Acts as the single source of truth, mediating between the UI and data layers.
 - **UI Layer (Compose)**: Uses Jetpack Compose for a modern, declarative UI. It includes specialized components like the OpenStreetMap wrapper.
-- **Repository (Planned)**: Will act as the single source of truth, mediating between the UI and data layers.
 
 ---
 
@@ -33,6 +33,15 @@ The project follows a modular architecture organized by concern, adhering to the
 - **`SessionStore.kt`**:
   - **Role**: Interface abstracting persistence.
   - **Responsibility**: Provides methods to save, load, and observe tracking sessions.
+
+### Repository Layer
+- **`TrackingRepository.kt`**:
+  - **Role**: The single source of truth and "brain" of the application.
+  - **Responsibility**:
+    - Manages the tracking lifecycle (start, pause, resume, stop).
+    - Collects locations and updates the current session.
+    - Ensures illegal state transitions are blocked.
+    - Persists points incrementally to prevent data loss.
 
 ### UI Layer
 - **`OsmMapView.kt`**: 
