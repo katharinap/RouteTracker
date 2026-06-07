@@ -56,6 +56,7 @@ object AppModule {
     fun provideTrackingRepository(
         store: SessionStore,
         locationSource: LocationSource,
-        scope: CoroutineScope
-    ): TrackingRepository = TrackingRepository(store, locationSource, scope)
+        scope: CoroutineScope,
+        @ApplicationContext context: Context
+    ): TrackingRepository = TrackingRepository(store, locationSource, scope, context)
 }
