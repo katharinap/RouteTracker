@@ -33,7 +33,10 @@ class FusedLocationSource(private val context: Context) : LocationSource {
             }
         }
 
-        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000L).build()
+        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000L)
+            .setMinUpdateDistanceMeters(3f)
+            .setMinUpdateIntervalMillis(2000L)
+            .build()
         
         client.requestLocationUpdates(request, callback, Looper.getMainLooper())
 
