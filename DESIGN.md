@@ -54,6 +54,12 @@ The project follows a modular architecture organized by concern, adhering to the
   - **Responsibilities**:
     - Verifies that `OsmMapView` renders without crashing when provided with data.
     - Verifies that it handles empty data gracefully.
+- **`FakeLocationSource.kt`**:
+  - **Role**: A test double for `LocationSource`.
+  - **Responsibility**: Emits a predefined list of points as a flow.
+- **`FakeSessionStore.kt`**:
+  - **Role**: A test double for `SessionStore`.
+  - **Responsibility**: Simulates an in-memory database for session persistence.
 
 ---
 
