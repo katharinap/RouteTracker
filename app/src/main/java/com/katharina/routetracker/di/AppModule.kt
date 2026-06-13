@@ -30,8 +30,8 @@ object AppModule {
         Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "route_tracker.db"
-        ).fallbackToDestructiveMigration()
+            "route_tracker.db",
+        ).fallbackToDestructiveMigration(true)
             .build()
 
     @Provides

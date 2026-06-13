@@ -10,7 +10,7 @@ import androidx.test.runner.AndroidJUnitRunner
  */
 class SelectiveTestRunner : AndroidJUnitRunner() {
     override fun onCreate(arguments: Bundle?) {
-        val isEmulator = Build.FINGERPRINT.contains("generic") ||
+        val isEmulator = (Build.FINGERPRINT.contains("generic") ||
                 Build.FINGERPRINT.contains("unknown") ||
                 Build.MODEL.contains("google_sdk") ||
                 Build.MODEL.contains("Emulator") ||
@@ -18,7 +18,7 @@ class SelectiveTestRunner : AndroidJUnitRunner() {
                 Build.MODEL.contains("Android SDK built for x86") ||
                 Build.MANUFACTURER.contains("Genymotion") ||
                 (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
-                "google_sdk" == Build.PRODUCT
+                "google_sdk" == Build.PRODUCT)
 
         if (!isEmulator) {
             // If on a real device, we stop early. 

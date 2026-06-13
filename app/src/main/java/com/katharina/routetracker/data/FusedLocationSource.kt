@@ -26,7 +26,7 @@ class FusedLocationSource(private val context: Context) : LocationSource {
                         TrackPoint(
                             lat = location.latitude,
                             lon = location.longitude,
-                            timestampMs = location.time
+                            timestampMs = location.time,
                         )
                     )
                 }

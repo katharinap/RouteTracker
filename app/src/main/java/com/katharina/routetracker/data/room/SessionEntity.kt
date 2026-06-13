@@ -22,7 +22,7 @@ fun SessionEntity.toDomain(points: List<com.katharina.routetracker.domain.TrackP
         stoppedAt = stoppedAt,
         state = TrackingState.valueOf(state),
         points = points,
-        distanceMeters = distanceMeters
+        distanceMeters = distanceMeters,
     )
 
 fun TrackingSession.toEntity(pointsJson: String): SessionEntity =
@@ -32,5 +32,5 @@ fun TrackingSession.toEntity(pointsJson: String): SessionEntity =
         stoppedAt = stoppedAt,
         state = state.name,
         pointsJson = pointsJson,
-        distanceMeters = distanceMeters
+        distanceMeters = distanceMeters,
     )

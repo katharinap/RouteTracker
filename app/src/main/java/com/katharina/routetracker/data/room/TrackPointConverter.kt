@@ -2,7 +2,6 @@ package com.katharina.routetracker.data.room
 
 import androidx.room.TypeConverter
 import com.katharina.routetracker.domain.TrackPoint
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class TrackPointConverter {
@@ -12,7 +11,7 @@ class TrackPointConverter {
     @TypeConverter
     fun toTrackPointList(value: String): List<TrackPoint> = try {
         Json.decodeFromString(value)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         emptyList()
     }
 }

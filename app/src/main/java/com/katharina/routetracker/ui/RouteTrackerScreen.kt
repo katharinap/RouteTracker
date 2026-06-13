@@ -8,21 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.katharina.routetracker.domain.toControlsState
 
 @Composable
@@ -31,13 +25,14 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
     val allSessions by viewModel.allSessions.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
-            viewModel.start()
+    val permissionLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestMultiplePermissions(),
+        ) { permissions ->
+            if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+                viewModel.start()
+            }
         }
-    }
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
@@ -47,18 +42,19 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             if (!uiState.hasActiveSession) {
                 SessionList(
                     sessions = allSessions,
                     onCreateSession = viewModel::createSession,
-                    onSelectSession = viewModel::selectSession
+                    onSelectSession = viewModel::selectSession,
                 )
             } else {
                 BackHandler {
@@ -69,26 +65,26 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
                         startedAt = uiState.startedAt,
                         stoppedAt = uiState.stoppedAt,
                         distanceMeters = uiState.distanceMeters,
-                        onBack = viewModel::closeSession
+                        onBack = viewModel::closeSession,
                     )
                     OsmMapView(
                         points = uiState.points,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                     TrackingControlsBar(
                         controls = uiState.trackingState.toControlsState(),
-                        onStart = { 
+                        onStart = {
                             permissionLauncher.launch(
                                 arrayOf(
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.POST_NOTIFICATIONS
-                                )
-                            ) 
+                                    Manifest.permission.POST_NOTIFICATIONS,
+                                ),
+                            )
                         },
                         onPause = viewModel::pause,
                         onResume = viewModel::resume,
-                        onStop = viewModel::stop
+                        onStop = viewModel::stop,
                     )
                 }
             }

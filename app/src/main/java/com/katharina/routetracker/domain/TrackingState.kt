@@ -19,5 +19,5 @@ fun TrackingState.toControlsState() = ControlsState(
     showStart = this == TrackingState.IDLE,
     showPause = this == TrackingState.TRACKING,
     showResume = this == TrackingState.PAUSED,
-    showStop = this == TrackingState.TRACKING || this == TrackingState.PAUSED,
+    showStop = (this == TrackingState.TRACKING || this == TrackingState.PAUSED),
 )

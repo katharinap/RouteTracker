@@ -19,7 +19,7 @@ fun TrackingSession.withState(next: TrackingState): TrackingSession {
         TrackingState.IDLE     to setOf(TrackingState.TRACKING),
         TrackingState.TRACKING to setOf(TrackingState.PAUSED, TrackingState.STOPPED),
         TrackingState.PAUSED   to setOf(TrackingState.TRACKING, TrackingState.STOPPED),
-        TrackingState.STOPPED  to emptySet<TrackingState>(),
+        TrackingState.STOPPED  to emptySet(),
     )
     
     val possibleTransitions = allowed[state] ?: emptySet()

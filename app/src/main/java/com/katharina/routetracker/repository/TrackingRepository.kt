@@ -95,7 +95,7 @@ class TrackingRepository @Inject constructor(
                         }
                         it.copy(
                             points = it.points + point,
-                            distanceMeters = newDistance
+                            distanceMeters = newDistance,
                         )
                     }
                 }

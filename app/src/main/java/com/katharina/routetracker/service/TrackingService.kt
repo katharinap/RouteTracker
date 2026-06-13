@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.IBinder
@@ -39,7 +38,7 @@ class TrackingService : Service() {
         
         repo.session
             .onEach { session ->
-                if (session == null || session.state == TrackingState.STOPPED) {
+                if (session == null || (session.state == TrackingState.STOPPED)) {
                     stopSelf()
                 } else {
                     updateNotification(session.state)
@@ -55,7 +54,7 @@ class TrackingService : Service() {
         startForeground(
             notificationId, 
             notification, 
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION,
         )
         
         return START_STICKY
@@ -74,7 +73,7 @@ class TrackingService : Service() {
             "Route Tracking",
             NotificationManager.IMPORTANCE_LOW
         )
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
     }
 
@@ -97,7 +96,7 @@ class TrackingService : Service() {
 
     private fun updateNotification(state: TrackingState) {
         val notification = createNotification(state)
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(notificationId, notification)
     }
 }

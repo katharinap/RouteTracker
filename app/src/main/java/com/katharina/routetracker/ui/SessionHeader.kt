@@ -20,14 +20,14 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-private val timestampFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+private fun getTimestampFormatter() = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
 /**
  * Formats a timestamp for display.
  * Returns "—" if the timestamp is null.
  */
 fun Long?.toDisplayTime(): String =
-    this?.let { timestampFormatter.format(Date(it)) } ?: "—"
+    this?.let { getTimestampFormatter().format(Date(it)) } ?: "—"
 
 @Composable
 fun SessionHeader(

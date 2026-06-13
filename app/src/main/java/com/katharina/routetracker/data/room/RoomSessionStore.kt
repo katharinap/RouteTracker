@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 
 class RoomSessionStore(
     private val dao: SessionDao,
-    private val converter: TrackPointConverter
+    private val converter: TrackPointConverter,
 ) : SessionStore {
 
     override suspend fun save(session: TrackingSession): TrackingSession {

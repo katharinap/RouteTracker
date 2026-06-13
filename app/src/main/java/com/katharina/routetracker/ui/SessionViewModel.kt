@@ -33,13 +33,13 @@ class SessionViewModel @Inject constructor(private val repo: TrackingRepository)
 
     val uiState: StateFlow<SessionUiState> = combine(
         repo.session,
-        _error
+        _error,
     ) { session, error ->
         session.toUiState().copy(error = error)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
-        initialValue = SessionUiState()
+        initialValue = SessionUiState(),
     )
 
     val allSessions: StateFlow<List<TrackingSession>> = repo.observeAll()
