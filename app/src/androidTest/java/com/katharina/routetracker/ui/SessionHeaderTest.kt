@@ -15,10 +15,16 @@ class SessionHeaderTest {
     fun sessionHeader_showsStartedTime() {
         val startedAt = System.currentTimeMillis()
         composeTestRule.setContent {
-            SessionHeader(startedAt = startedAt, stoppedAt = null, onBack = {})
+            SessionHeader(
+                startedAt = startedAt,
+                stoppedAt = null,
+                distanceMeters = 0.0,
+                onBack = {}
+            )
         }
 
         composeTestRule.onNodeWithText("Started: ${startedAt.toDisplayTime()}").assertIsDisplayed()
+        composeTestRule.onNodeWithText("0 m").assertIsDisplayed()
     }
 
     @Test
@@ -26,17 +32,43 @@ class SessionHeaderTest {
         val startedAt = System.currentTimeMillis() - 1000
         val stoppedAt = System.currentTimeMillis()
         composeTestRule.setContent {
-            SessionHeader(startedAt = startedAt, stoppedAt = stoppedAt, onBack = {})
+            SessionHeader(
+                startedAt = startedAt,
+                stoppedAt = stoppedAt,
+                distanceMeters = 500.0,
+                onBack = {}
+            )
         }
 
         composeTestRule.onNodeWithText("Started: ${startedAt.toDisplayTime()}").assertIsDisplayed()
         composeTestRule.onNodeWithText("Stopped: ${stoppedAt.toDisplayTime()}").assertIsDisplayed()
+        composeTestRule.onNodeWithText("500 m").assertIsDisplayed()
+    }
+
+    @Test
+    fun sessionHeader_showsFormattedDistanceInKm() {
+        composeTestRule.setContent {
+            SessionHeader(
+                startedAt = System.currentTimeMillis(),
+                stoppedAt = null,
+                distanceMeters = 1500.0,
+                onBack = {}
+            )
+        }
+
+        // 1500m should show as 1.50 km
+        composeTestRule.onNodeWithText("1.50 km").assertIsDisplayed()
     }
 
     @Test
     fun sessionHeader_showsDashForNullStartedTime() {
         composeTestRule.setContent {
-            SessionHeader(startedAt = null, stoppedAt = null, onBack = {})
+            SessionHeader(
+                startedAt = null,
+                stoppedAt = null,
+                distanceMeters = 0.0,
+                onBack = {}
+            )
         }
 
         composeTestRule.onNodeWithText("Started: —").assertIsDisplayed()

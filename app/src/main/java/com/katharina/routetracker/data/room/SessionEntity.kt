@@ -12,6 +12,7 @@ data class SessionEntity(
     val stoppedAt: Long?,
     val state: String,
     val pointsJson: String,
+    val distanceMeters: Double = 0.0,
 )
 
 fun SessionEntity.toDomain(points: List<com.katharina.routetracker.domain.TrackPoint>): TrackingSession =
@@ -20,7 +21,8 @@ fun SessionEntity.toDomain(points: List<com.katharina.routetracker.domain.TrackP
         startedAt = startedAt,
         stoppedAt = stoppedAt,
         state = TrackingState.valueOf(state),
-        points = points
+        points = points,
+        distanceMeters = distanceMeters
     )
 
 fun TrackingSession.toEntity(pointsJson: String): SessionEntity =
@@ -29,5 +31,6 @@ fun TrackingSession.toEntity(pointsJson: String): SessionEntity =
         startedAt = startedAt,
         stoppedAt = stoppedAt,
         state = state.name,
-        pointsJson = pointsJson
+        pointsJson = pointsJson,
+        distanceMeters = distanceMeters
     )

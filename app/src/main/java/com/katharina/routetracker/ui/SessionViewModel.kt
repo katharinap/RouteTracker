@@ -21,6 +21,7 @@ data class SessionUiState(
     val stoppedAt: Long? = null,
     val trackingState: TrackingState = TrackingState.IDLE,
     val points: List<TrackPoint> = emptyList(),
+    val distanceMeters: Double = 0.0,
     val error: String? = null,
     val hasActiveSession: Boolean = false,
 )
@@ -74,6 +75,7 @@ class SessionViewModel @Inject constructor(private val repo: TrackingRepository)
             stoppedAt = stoppedAt,
             trackingState = state,
             points = points,
+            distanceMeters = distanceMeters,
             hasActiveSession = true
         )
     }

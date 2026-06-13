@@ -7,6 +7,7 @@ data class TrackingSession(
     val stoppedAt: Long? = null,   // null until stop() is called
     val state: TrackingState = TrackingState.IDLE,
     val points: List<TrackPoint> = emptyList(),
+    val distanceMeters: Double = 0.0,
 )
 
 /**

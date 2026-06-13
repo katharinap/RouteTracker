@@ -31,7 +31,8 @@ object AppModule {
             context,
             AppDatabase::class.java,
             "route_tracker.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     fun provideSessionDao(db: AppDatabase): SessionDao = db.sessionDao()

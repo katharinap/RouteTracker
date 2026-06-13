@@ -68,6 +68,7 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
                     SessionHeader(
                         startedAt = uiState.startedAt,
                         stoppedAt = uiState.stoppedAt,
+                        distanceMeters = uiState.distanceMeters,
                         onBack = viewModel::closeSession
                     )
                     OsmMapView(

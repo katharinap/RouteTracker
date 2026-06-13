@@ -6,6 +6,7 @@ import com.katharina.routetracker.data.LocationSource
 import com.katharina.routetracker.data.SessionStore
 import com.katharina.routetracker.domain.TrackingSession
 import com.katharina.routetracker.domain.TrackingState
+import com.katharina.routetracker.domain.distanceTo
 import com.katharina.routetracker.domain.withState
 import com.katharina.routetracker.service.TrackingService
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -84,7 +85,20 @@ class TrackingRepository @Inject constructor(
         if (locationJob != null) return
         locationJob = scope.launch {
             locationSource.locations.collect { point ->
-                _session.update { it?.copy(points = it.points + point) }
+                _session.update { session ->
+                    session?.let {
+                        val lastPoint = it.points.lastOrNull()
+                        val newDistance = if (lastPoint != null) {
+                            it.distanceMeters + lastPoint.distanceTo(point)
+                        } else {
+                            it.distanceMeters
+                        }
+                        it.copy(
+                            points = it.points + point,
+                            distanceMeters = newDistance
+                        )
+                    }
+                }
                 // persist incrementally so no points are lost on crash
                 _session.value?.let { store.save(it) }
             }

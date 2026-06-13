@@ -1,6 +1,7 @@
 package com.katharina.routetracker.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.katharina.routetracker.domain.TrackingSession
+import java.util.Locale
+
+fun Double.toDisplayDistance(): String =
+    if (this >= 1000) {
+        String.format(Locale.getDefault(), "%.2f km", this / 1000.0)
+    } else {
+        String.format(Locale.getDefault(), "%.0f m", this)
+    }
 
 @Composable
 fun SessionList(
@@ -87,10 +96,19 @@ fun SessionItem(
                 text = "Started: ${session.startedAt.toDisplayTime()}",
                 style = MaterialTheme.typography.bodySmall
             )
-            Text(
-                text = "${session.points.size} points recorded",
-                style = MaterialTheme.typography.bodySmall
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "${session.points.size} points recorded",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = session.distanceMeters.toDisplayDistance(),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
     }
 }

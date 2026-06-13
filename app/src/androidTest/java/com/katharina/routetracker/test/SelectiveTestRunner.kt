@@ -14,6 +14,7 @@ class SelectiveTestRunner : AndroidJUnitRunner() {
                 Build.FINGERPRINT.contains("unknown") ||
                 Build.MODEL.contains("google_sdk") ||
                 Build.MODEL.contains("Emulator") ||
+                Build.MODEL.contains("sdk_gphone") ||
                 Build.MODEL.contains("Android SDK built for x86") ||
                 Build.MANUFACTURER.contains("Genymotion") ||
                 (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||

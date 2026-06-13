@@ -33,6 +33,7 @@ fun Long?.toDisplayTime(): String =
 fun SessionHeader(
     startedAt: Long?,
     stoppedAt: Long?,
+    distanceMeters: Double,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -61,6 +62,11 @@ fun SessionHeader(
                 )
             }
         }
+        Text(
+            text = distanceMeters.toDisplayDistance(),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(end = 8.dp)
+        )
     }
 }
 
@@ -71,6 +77,7 @@ fun PreviewSessionHeader() {
         SessionHeader(
             startedAt = System.currentTimeMillis() - 3600000,
             stoppedAt = System.currentTimeMillis(),
+            distanceMeters = 5420.0,
             onBack = {}
         )
     }
@@ -83,6 +90,7 @@ fun PreviewSessionHeaderActive() {
         SessionHeader(
             startedAt = System.currentTimeMillis(),
             stoppedAt = null,
+            distanceMeters = 120.5,
             onBack = {}
         )
     }

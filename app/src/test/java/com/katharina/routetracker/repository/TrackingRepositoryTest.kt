@@ -112,4 +112,22 @@ class TrackingRepositoryTest {
         assertEquals(1, savedSession?.points?.size)
         assertEquals(point, savedSession?.points?.first())
     }
+
+    @Test
+    fun `distance is calculated incrementally`() = testScope.runTest {
+        // approx 111km between these points
+        val points = listOf(
+            TrackPoint(0.0, 0.0, 100),
+            TrackPoint(1.0, 0.0, 200)
+        )
+        val repo = createRepo(points)
+        repo.createSession()
+        repo.start()
+        
+        testScope.advanceUntilIdle()
+        
+        val session = repo.session.value
+        // 1 degree latitude is approx 111,111 meters
+        assertEquals(111111.0, session!!.distanceMeters, 500.0)
+    }
 }
