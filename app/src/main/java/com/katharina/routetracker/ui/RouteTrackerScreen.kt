@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.katharina.routetracker.domain.TrackingState
 import com.katharina.routetracker.domain.toControlsState
 
 @Composable
@@ -70,6 +71,7 @@ fun RouteTrackerScreen(viewModel: SessionViewModel) {
                     OsmMapView(
                         points = uiState.points,
                         modifier = Modifier.weight(1f),
+                        showLatestPointMarker = uiState.trackingState != TrackingState.STOPPED,
                     )
                     TrackingControlsBar(
                         controls = uiState.trackingState.toControlsState(),

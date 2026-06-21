@@ -154,7 +154,7 @@ RouteTrackerScreen
   ├─ if activeSession == null → SessionList(allSessions)
   └─ else
        ├─ SessionHeader(startedAt, stoppedAt, distance)
-       ├─ OsmMapView(points)
+       ├─ OsmMapView(points, showMarker)
        └─ TrackingControlsBar(state)
 ```
 
