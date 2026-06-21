@@ -1,6 +1,10 @@
 package com.katharina.routetracker.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -13,6 +17,8 @@ import org.osmdroid.views.overlay.Polyline
 @Composable
 fun OsmMapView(points: List<TrackPoint>, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    var isInitialized by remember { mutableStateOf(false) }
+
     AndroidView(
         factory = {
             MapView(context).apply {
@@ -23,12 +29,22 @@ fun OsmMapView(points: List<TrackPoint>, modifier: Modifier = Modifier) {
         update = { map ->
             map.overlays.removeAll { it is Polyline }
             if (points.isNotEmpty()) {
+                val lastPoint = GeoPoint(points.last().lat, points.last().lon)
+                
                 val line = Polyline().apply {
                     setPoints(points.map { GeoPoint(it.lat, it.lon) })
                 }
                 map.overlays.add(line)
-                map.controller.setCenter(GeoPoint(points.last().lat, points.last().lon))
-                map.controller.setZoom(16.0)
+                
+                // Only set the initial zoom and center once per session view
+                if (!isInitialized) {
+                    map.controller.setZoom(16.0)
+                    map.controller.setCenter(lastPoint)
+                    isInitialized = true
+                } else {
+                    // For subsequent updates, we follow the user but keep their zoom level
+                    map.controller.setCenter(lastPoint)
+                }
             }
             map.invalidate()
         },

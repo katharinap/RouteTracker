@@ -71,6 +71,7 @@ The project follows a modular architecture organized by concern, adhering to the
   - **Role**: Displays formatted timestamps and total distance.
 - **`OsmMapView.kt`**: 
   - **Role**: Compose wrapper for **osmdroid**.
+  - **Responsibility**: Manages map positioning, following the user while respecting manual zoom adjustments.
 
 ### Testing
 - **`SelectiveTestRunner.kt`**:
